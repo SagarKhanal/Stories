@@ -29,7 +29,7 @@
                                     <option value="vendor">Vendor</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-success">Update Role</button>
+                            <button type="submit" class="btn btn-success">Upgrade Role</button>
                             <a href="/add-roles" class="btn btn-danger">Cancel</a>
                         </form>
                     </div>
