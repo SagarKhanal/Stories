@@ -6,6 +6,29 @@
 
 @section('content')
 
+{{-- Delete Modal --}}
+<!-- Modal -->
+<div class="modal fade" id="deleteModalpop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Do you want to delete it?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="deleteModalInner" method="post">
+            {{csrf_field()}}
+            {{method_field('DELETE')}}
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Delete</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
 {{-- POPUP MODAL --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -117,11 +140,7 @@
                     <a href="/pages/{{$item->id}}" class="btn btn-success">EDIT</a>
                   </td>
                   <td class="text-right">
-                  <form action="{{url('delete-story/'.$item->id)}}" method="post">
-                        {{csrf_field()}}
-                        {{method_field('DELETE')}}
-                        <button type="submit" class="btn btn-danger">DELETE</button>
-                      </form>
+                    <a href="javascript:void(0)" data-target="deleteModalpop" data-toggle="modal" class="btn btn-danger deletebtn">DELETE</a>
                   </td>
                 </tr>
                 @endforeach
@@ -139,6 +158,14 @@
 <script>
 $(document).ready( function () {
     $('#storyTable').DataTable();
+    $('#storyTable').on('click','.deletebtn',function(){
+       $tr = $(this).closest('tr');
+        var data = $tr.children('td').map(function(){
+            return $(this).text();
+        }).get();
+        $('#deleteModalInner').attr('action','/delete-story/'+data[0]);
+        $('#deleteModalpop').modal('show');
+    })
 } );
 </script>
 @endsection
